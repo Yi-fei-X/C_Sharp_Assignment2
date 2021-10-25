@@ -17,35 +17,43 @@ namespace Assignment2.Data.Repository
 
         public int Delete(int id)
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.Execute("Delete * from Customers where Id=@CustId", new { CustId = id }); //Cannot directly use Id here
+            using (IDbConnection conn = db.GetConnection())
+            {
+                return conn.Execute("Delete * from Customers where Id=@CustId", new { CustId = id }); //Cannot directly use Id here
+            } 
         }
 
         public IEnumerable<Customers> GetAll()
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.Query<Customers>("Select Id, RoomNo, CName, Address, Phone, Email, CheckIn, TotalPersons, BookingDays, Advance from Customers");
-            /* If want to use Stored Procedure
-             * return conn.Query<Customers>("NameOfStoredProcedure", commandType:CommandType.StoredProcedure);
-             */
+            using (IDbConnection conn = db.GetConnection())
+            {
+                return conn.Query<Customers>("Select Id, RoomNo, CName, Address, Phone, Email, CheckIn, TotalPersons, BookingDays, Advance from Customers");
+                /* If want to use Stored Procedure
+                 * return conn.Query<Customers>("NameOfStoredProcedure", commandType:CommandType.StoredProcedure);
+                 */
+            }
         }
 
         public Customers GetById(int id)
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.QueryFirstOrDefault<Customers>("Select Id, RoomNo, CName, Address, Phone, Email, CheckIn, TotalPersons, BookingDays, Advance from Customers where id=CustId", new { CustId = id });
-        }
+            using (IDbConnection conn = db.GetConnection())
+            {
+                return conn.QueryFirstOrDefault<Customers>("Select Id, RoomNo, CName, Address, Phone, Email, CheckIn, TotalPersons, BookingDays, Advance from Customers where id=CustId", new{ CustId = id });
+            }        }
 
         public int Insert(Customers item)
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.Execute("Insert into Customers values(@RoomNo, @CName, @Address, @Phone, @Email, @CheckIn, @TotalPersons, @BookingDays, @Advance)", item); //Name of parameters must be same as name of property value
+            using (IDbConnection conn = db.GetConnection())
+            {
+                return conn.Execute("Insert into Customers values(@RoomNo, @CName, @Address, @Phone, @Email, @CheckIn, @TotalPersons, @BookingDays, @Advance)", item);
+            }
         }
 
         public int Update(Customers item)
         {
-            IDbConnection conn = db.GetConnection();
-            return conn.Execute("Update Customers set RoomNo=@RoomNo, CName=@CName, Address=@Address, Phone=@Phone, Email=@Email, CheckIn=@CheckIn, TotalPersons=@TotalPersons, BookingDays=@BookingDays, Advance=@Advance where Id=@Id", item);
-        }
+            using (IDbConnection conn = db.GetConnection())
+            {
+                return conn.Execute("Update Customers set RoomNo=@RoomNo, CName=@CName, Address=@Address, Phone=@Phone, Email=@Email, CheckIn=@CheckIn, TotalPersons=@TotalPersons, BookingDays=@BookingDays, Advance=@Advance where Id=@Id", item);
+            }        }
     }
 }

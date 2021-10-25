@@ -6,8 +6,10 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
-            ManageCustomers manageCustomers = new ManageCustomers();
-            manageCustomers.Run();
+            //ManageCustomers manageCustomers = new ManageCustomers();
+            //manageCustomers.Run();
+            ManageRooms manageRooms = new ManageRooms();
+            manageRooms.Run();
         }
     }
 }
